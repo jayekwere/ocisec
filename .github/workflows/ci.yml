@@ -1,0 +1,49 @@
+# CI for ocisec: build, vet, test, and dogfood the tool against the fixtures.
+#
+# Hardening note: actions below are pinned to major-version tags for readability.
+# The fully hardened form pins each to a full commit SHA (the GitHub Actions
+# security step) — e.g. actions/checkout@<40-char-sha>. Permissions are already
+# scoped to least privilege.
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build-test-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.22"
+
+      - name: Vet
+        run: go vet ./...
+
+      - name: Test
+        run: go test ./...
+
+      - name: Build
+        run: go build -o ocisec .
+
+      - name: Scan hardened spec (must pass)
+        run: ./ocisec --input testdata/secure.json --fail-on high
+
+      - name: Verify gate trips on insecure spec
+        run: |
+          if ./ocisec --input testdata/insecure.json --fail-on high; then
+            echo "::error::ocisec did not fail on the insecure fixture; the CI gate is broken"
+            exit 1
+          else
+            echo "Gate correctly tripped on the insecure fixture (non-zero exit)."
+          fi

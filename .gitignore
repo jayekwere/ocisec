@@ -1,0 +1,14 @@
+# Compiled binary
+/ocisec
+ocisec
+
+# Go build / test artifacts
+*.exe
+*.test
+*.out
+coverage.*
+
+# Editor / OS noise
+.DS_Store
+.idea/
+.vscode/

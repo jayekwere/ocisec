@@ -1,0 +1,44 @@
+{
+  "ociVersion": "1.2.0",
+  "process": {
+    "user": { "uid": 1000, "gid": 1000 },
+    "noNewPrivileges": true,
+    "apparmorProfile": "docker-default",
+    "capabilities": {
+      "bounding": ["CAP_NET_BIND_SERVICE"],
+      "effective": ["CAP_NET_BIND_SERVICE"],
+      "permitted": ["CAP_NET_BIND_SERVICE"]
+    },
+    "args": ["/usr/bin/app"]
+  },
+  "root": { "path": "rootfs", "readonly": true },
+  "mounts": [
+    {
+      "destination": "/data",
+      "source": "/srv/app/data",
+      "type": "bind",
+      "options": ["rbind", "ro"]
+    }
+  ],
+  "linux": {
+    "namespaces": [
+      { "type": "pid" },
+      { "type": "network" },
+      { "type": "ipc" },
+      { "type": "uts" },
+      { "type": "mount" },
+      { "type": "user" }
+    ],
+    "maskedPaths": [
+      "/proc/kcore",
+      "/proc/sysrq-trigger",
+      "/sys/firmware"
+    ],
+    "seccomp": {
+      "defaultAction": "SCMP_ACT_ERRNO",
+      "syscalls": [
+        { "names": ["read", "write", "exit", "exit_group"], "action": "SCMP_ACT_ALLOW" }
+      ]
+    }
+  }
+}
