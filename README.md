@@ -2,11 +2,11 @@
 
 `ocisec` is a static analyzer for **OCI runtime specifications** (`config.json`). It parses a spec against the upstream [`opencontainers/runtime-spec`](https://github.com/opencontainers/runtime-spec) Go types and reports container-escape and isolation misconfigurations, returning a severity-aware exit code so it can act as a **CI gate**.
 
-It checks the configuration *before* a container runs - the same posture a reviewer would take reading a `config.json`, but automated and consistent.
+It checks the configuration before the container runs. Findings include a severity, an explanation and a suggested fix.
 
 ## Why
 
-Most container hardening checks live inside large paid platforms or as opaque shell scripts that string-match JSON. `ocisec` instead unmarshals the spec into the canonical runtime-spec structs, so the checks track the real schema rather than text patterns, and every finding ships with the *why* (the escape or escalation path it maps to) and a concrete fix.
+OCI runtime configurations expose settings such as capabilities, namespaces, mounts and syscall filters. This tool checks those fields using the runtime-spec Go types and returns an exit code that CI can use to reject unsafe configurations.
 
 ## Install
 
@@ -62,7 +62,7 @@ Read-only sensitive mounts are reported one severity band lower than writable on
 
 ## CI integration
 
-`ocisec` is designed to drop into a pipeline. Example GitHub Actions step:
+Example GitHub Actions step:
 
 ```yaml
 - name: Scan container runtime spec
@@ -71,13 +71,13 @@ Read-only sensitive mounts are reported one severity band lower than writable on
     ./ocisec --input path/to/config.json --fail-on high
 ```
 
-A non-zero exit fails the job. This repository [dogfoods itself](.github/workflows/ci.yml): CI builds, vets, tests, scans the hardened fixture (must pass), and asserts the gate trips on the insecure fixture.
+A non-zero exit fails the job. The [CI workflow](.github/workflows/ci.yml) builds, vets, tests, scans the hardened fixture (must pass), and asserts the gate trips on the insecure fixture.
 
 ## Design notes
 
-- **Upstream types, not regex.** The spec is unmarshaled into `specs.Spec` from `opencontainers/runtime-spec`, so checks reflect the actual schema and survive formatting changes.
-- **Static, not runtime.** `ocisec` analyzes configuration only. It does not observe a running container, enforce policy at admission, or replace runtime detection - it shifts those concerns left into review and CI.
-- **Defensible output.** Every finding carries a severity, the risk it represents, a remediation, and a spec/man-page reference.
+- **Parsing.** The spec is unmarshaled into `specs.Spec` from `opencontainers/runtime-spec`, so checks reflect the actual schema and survive formatting changes.
+- **Scope.** `ocisec` analyzes configuration only. It does not observe a running container, enforce policy at admission, or replace runtime detection.
+- **Finding details.** Every finding carries a severity, the risk it represents, a remediation, and a spec/man-page reference.
 
 ## Limitations
 
