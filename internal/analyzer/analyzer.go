@@ -51,7 +51,7 @@ func ParseSeverity(v string) (Severity, error) {
 }
 
 // Finding is a single issue detected in an OCI runtime spec. Remediation and
-// Reference exist so the output is defensible, not just a label — every finding
+// Reference exist so the output is defensible, not just a label - every finding
 // explains why it matters and how to fix it.
 type Finding struct {
 	RuleID      string   `json:"rule_id"`

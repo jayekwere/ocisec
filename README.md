@@ -2,7 +2,7 @@
 
 `ocisec` is a static analyzer for **OCI runtime specifications** (`config.json`). It parses a spec against the upstream [`opencontainers/runtime-spec`](https://github.com/opencontainers/runtime-spec) Go types and reports container-escape and isolation misconfigurations, returning a severity-aware exit code so it can act as a **CI gate**.
 
-It checks the configuration *before* a container runs — the same posture a reviewer would take reading a `config.json`, but automated and consistent.
+It checks the configuration *before* a container runs - the same posture a reviewer would take reading a `config.json`, but automated and consistent.
 
 ## Why
 
@@ -35,14 +35,14 @@ ocisec --input config.json --fail-on critical
 | `--input`   | `config.json` | Path to the OCI runtime spec.                            |
 | `--format`  | `text`        | Output format: `text` or `json`.                         |
 | `--fail-on` | `high`        | Minimum severity that fails the gate: `critical`/`high`/`medium`/`low`/`info`. |
-| `--version` | —             | Print version and exit.                                  |
+| `--version` | -             | Print version and exit.                                  |
 
 ### Exit codes (the CI contract)
 
 | Code | Meaning                                                |
 |------|--------------------------------------------------------|
-| `0`  | Clean — no findings at or above `--fail-on`.            |
-| `1`  | Gate tripped — findings at or above `--fail-on`.        |
+| `0`  | Clean - no findings at or above `--fail-on`.            |
+| `1`  | Gate tripped - findings at or above `--fail-on`.        |
 | `2`  | Usage or runtime error (spec could not be analyzed).   |
 
 ## What it checks
@@ -76,7 +76,7 @@ A non-zero exit fails the job. This repository [dogfoods itself](.github/workflo
 ## Design notes
 
 - **Upstream types, not regex.** The spec is unmarshaled into `specs.Spec` from `opencontainers/runtime-spec`, so checks reflect the actual schema and survive formatting changes.
-- **Static, not runtime.** `ocisec` analyzes configuration only. It does not observe a running container, enforce policy at admission, or replace runtime detection — it shifts those concerns left into review and CI.
+- **Static, not runtime.** `ocisec` analyzes configuration only. It does not observe a running container, enforce policy at admission, or replace runtime detection - it shifts those concerns left into review and CI.
 - **Defensible output.** Every finding carries a severity, the risk it represents, a remediation, and a spec/man-page reference.
 
 ## Limitations
@@ -87,4 +87,4 @@ A non-zero exit fails the job. This repository [dogfoods itself](.github/workflo
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT - see [LICENSE](LICENSE).

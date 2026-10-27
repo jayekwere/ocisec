@@ -30,7 +30,7 @@ func (processRule) Check(spec *specs.Spec) []analyzer.Finding {
 		}
 
 		// noNewPrivileges=false allows setuid binaries and file capabilities to
-		// raise privileges after exec — a classic local escalation primitive.
+		// raise privileges after exec - a classic local escalation primitive.
 		if !spec.Process.NoNewPrivileges {
 			findings = append(findings, analyzer.New(
 				"OCISEC-PROC-NNP",

@@ -98,7 +98,7 @@ func loadSpec(path string) (*specs.Spec, error) {
 }
 
 func printText(input string, findings []analyzer.Finding) {
-	fmt.Printf("ocisec %s — analyzing %s\n\n", version, input)
+	fmt.Printf("ocisec %s - analyzing %s\n\n", version, input)
 	if len(findings) == 0 {
 		fmt.Println("No findings. Spec passed all ocisec checks.")
 		return
@@ -114,7 +114,7 @@ func printText(input string, findings []analyzer.Finding) {
 		}
 		fmt.Println()
 	}
-	fmt.Printf("Summary: %d finding(s) — %d critical, %d high, %d medium, %d low\n",
+	fmt.Printf("Summary: %d finding(s) - %d critical, %d high, %d medium, %d low\n",
 		len(findings),
 		counts[analyzer.Critical], counts[analyzer.High], counts[analyzer.Medium], counts[analyzer.Low])
 }

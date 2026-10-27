@@ -14,7 +14,7 @@ var dangerousCaps = map[string]struct {
 	sev    analyzer.Severity
 	reason string
 }{
-	"CAP_SYS_ADMIN":       {analyzer.Critical, "the broadest capability; permits mount, pivot_root, BPF and namespace operations — effectively a kernel-level escape primitive"},
+	"CAP_SYS_ADMIN":       {analyzer.Critical, "the broadest capability; permits mount, pivot_root, BPF and namespace operations - effectively a kernel-level escape primitive"},
 	"CAP_SYS_MODULE":      {analyzer.Critical, "load/unload kernel modules, giving direct, full control of the host kernel"},
 	"CAP_SYS_RAWIO":       {analyzer.Critical, "raw I/O port and /dev/mem access; can read or overwrite kernel memory"},
 	"CAP_SYS_PTRACE":      {analyzer.High, "attach to and modify other processes; combined with a shared host PID namespace this enables host process injection"},

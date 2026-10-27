@@ -36,7 +36,7 @@ func (seccompRule) Check(spec *specs.Spec) []analyzer.Finding {
 			"OCISEC-SECCOMP",
 			"Seccomp default action is ALLOW",
 			analyzer.Medium,
-			"The seccomp default action is SCMP_ACT_ALLOW, which permits all syscalls unless individually blocked — the opposite of a deny-by-default posture.",
+			"The seccomp default action is SCMP_ACT_ALLOW, which permits all syscalls unless individually blocked - the opposite of a deny-by-default posture.",
 			"Set the default action to SCMP_ACT_ERRNO or SCMP_ACT_KILL and allow-list only the syscalls the workload needs.",
 			"https://github.com/opencontainers/runtime-spec/blob/main/config-linux.md#seccomp",
 		))

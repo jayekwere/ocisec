@@ -2,7 +2,7 @@
 #
 # Hardening note: actions below are pinned to major-version tags for readability.
 # The fully hardened form pins each to a full commit SHA (the GitHub Actions
-# security step) — e.g. actions/checkout@<40-char-sha>. Permissions are already
+# security step) - e.g. actions/checkout@<40-char-sha>. Permissions are already
 # scoped to least privilege.
 name: ci
 

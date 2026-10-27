@@ -7,7 +7,7 @@ import (
 
 // In an OCI spec, linux.namespaces lists the namespaces the container is placed
 // into. If a namespace type is ABSENT from that list, the container shares the
-// host's namespace of that type — which is the isolation boundary we care about.
+// host's namespace of that type - which is the isolation boundary we care about.
 type namespacesRule struct{}
 
 func (namespacesRule) ID() string { return "OCISEC-NS" }
